@@ -1,0 +1,136 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.*;
+public class Student {
+ 	public static void main(String args[])
+	{
+	HashMap<String, HashMap<String,String>> hm=new HashMap<String,
+HashMap<String,String>>();
+	Scanner sc=new Scanner(System.in);
+	HashMap<String,String> hm1=new HashMap<String,String>();
+	String at="NULL";
+	Student e= new Student();
+	e.read(hm,hm1,sc);
+	e.tokenize(hm,hm1,sc,at);
+ }
+	public void read(HashMap<String, HashMap<String,String>>
+hm,HashMap<String,String> hm1,Scanner sc)
+	{
+		hm1.put("8GB Pendrive","22.02.2018");
+		hm.put("Sampath", hm1);
+	 hm1=new HashMap<String,String>();
+		hm1.put("Java Record","17.02.2017");
+		hm.put("Parikshith", hm1);
+	 hm1=new HashMap<String,String>();
+		hm1.put("FS Notes","22.02.2018");
+		hm.put("Neetu", hm1);
+	 hm1=new HashMap<String,String>();
+		hm1.put("PS4 disc","23.02.2018");
+		hm.put("Samrat", hm1);
+		hm1=new HashMap<String,String>();
+		hm1.put("MIV Notes","22.02.2018");
+		hm.put("Amrita", hm1);
+	}
+ public void tokenize(HashMap<String, HashMap<String,String>>
+hm,HashMap<String,String> hm1,Scanner sc,String at)
+ {
+	//System.out.println("Enter Item/Name/Date:");
+			String s=sc.nextLine();
+			//System.out.println(s);
+		StringTokenizer st = new StringTokenizer(s,"/");
+		int ct=0;
+	 while (st.hasMoreTokens()&&at.equals("NULL")) {
+	 at=st.nextToken();
+	 ct++;
+	 }
+	 if(ct==1)
+	 	 itemstu(hm,hm1,at);
+	 else if(ct==2)
+	 	 namestu(hm,hm1,at);
+	 else
+	 	 datestu(hm,hm1,at);
+	 	
+ }
+ public void itemstu(HashMap<String, HashMap<String,String>>
+hm,HashMap<String,String> hm1,String at)
+ {
+	 for (Map.Entry<String,HashMap<String,String>> entry : hm.entrySet())
+	 {
+		 for (Map.Entry<String,String> secondentry : entry.getValue().entrySet())
+		 {
+			 if(secondentry.getKey().equals(at))
+			 {
+				 System.out.print("Name: "+entry.getKey()+" "+"item: "+secondentry.getKey()+" "+"Date:
+"+secondentry.getValue());
+			 }
+		 }
+	 }
+ }
+ public void namestu(HashMap<String, HashMap<String,String>>
+hm,HashMap<String,String> hm1,String at)
+ {
+	 for (Map.Entry<String,HashMap<String,String>> entry : hm.entrySet())
+	 {
+		 for (Map.Entry<String,String> secondentry : entry.getValue().entrySet())
+		 {
+			 if(entry.getKey().equals(at))
+			 {
+				 System.out.print("You took " + secondentry.getKey() + " from "+ entry.getKey() +" on "+
+secondentry.getValue());
+			 }
+		 }
+	 }
+ }
+ public void datestu(HashMap<String, HashMap<String,String>>
+hm,HashMap<String,String> hm1,String at)
+ {
+	 int d = 0,d1 = 0,m=0,m1=0,y=0,y1=0;
+	StringTokenizer a = new StringTokenizer(at,".");
+ while (a.hasMoreTokens()) {
+		 d =Integer.parseInt(a.nextToken());
+		 m =Integer.parseInt(a.nextToken());
+		 y =Integer.parseInt(a.nextToken());
+		 break;
+	 }
+	 System.out.println("The following are the events since "+ at);	
+	 for (Map.Entry<String,HashMap<String,String>> entry : hm.entrySet())
+	 {
+		 try {
+		 for (Map.Entry<String,String> secondentry : entry.getValue().entrySet())
+		 {
+		 StringTokenizer b = new StringTokenizer(secondentry.getValue(),".");
+		
+	 while (b.hasMoreTokens()) {
+	 		 d1 =Integer.parseInt(b.nextToken());	 	 		
+	 		 m1 =Integer.parseInt(b.nextToken());
+	 		 y1 =Integer.parseInt(b.nextToken());
+	 		 break;
+	 	 }
+	 if(y1>y)
+	 {
+	 	 System.out.println(entry.getKey() + " took "+ secondentry.getKey());
+	 }
+	 else if(y1==y&&m1>m)
+			 {
+	 	 System.out.println(entry.getKey() + " took "+ secondentry.getKey());
+			 }
+	 else if(y1==y&&d1>d&&m1==m)
+	 {
+	 	 System.out.println(entry.getKey() + " took "+ secondentry.getKey());
+	 }
+	 else if(y1==y&&d1==d&&m1==m)
+	 {
+	 	 System.out.println(entry.getKey() + " took "+ secondentry.getKey());
+	 }
+		 }
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("Exception occured");
+			 e.printStackTrace();
+		 }
+	 }
+ }
+}
