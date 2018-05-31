@@ -1,0 +1,189 @@
+import java.awt.*;
+import java.util.*;
+import java.awt.event.*;
+import java.io.*;
+import javax.swing.*;
+// Every user should login once.After entering the username press enter so that the
+contents get read to the file. If a new user wants to log in the application must be closed
+and then reopened. Dctors Login can be clicked any time and the sorted order of
+// the patients is displayed. The sevearity in decreasing order is:
+COUGH,COLD,FEVER,HEADACHE,VOMIT.
+public class Doctors
+{
+ JFrame f;
+ JButton b1,b2,b;
+	 JLabel jl,jl2,j1,j2,a,e;
+	 JTextArea c;
+	 JPanel jp=new JPanel(new FlowLayout());
+	 JPanel jd=new JPanel(new FlowLayout());
+	 JComboBox<String> f2=new JComboBox<String>();
+	 JTextField f1=new JTextField(15);
+ Doctors()
+ {
+ 	 f=new JFrame("Doctors appointment");
+ 	 jl=new JLabel("WELCOME TO ABC HOSPITAL",JLabel.CENTER);
+ 	 jp.add(jl);
+ 	 b1=new JButton("USER LOGIN");
+ 	 b2=new JButton("DOCTOR LOGIN");
+ 	 b1.setVisible(true);
+ 	 b2.setVisible(true);
+ 	 jp.add(b1);
+ 	 jp.add(b2);
+ 	 f.add(jp);
+ 	 b1.addActionListener(new ActionListener() {
+ 		 public void actionPerformed(ActionEvent ae) {
+ 		 a=new JLabel("Welcome User",JLabel.CENTER);
+ 		 	jp.add(a);
+ 	 		a.setVisible(true);
+ 	 		b1.setVisible(false);
+ 	 		b2.setVisible(false);
+ 	 		jl.setVisible(false);
+ 	 		j1=new JLabel("Name:");
+ 	 		j2=new JLabel("Complaint:");
+ 	 	 b=new JButton("NEXT");
+ 	 		jp.add(b,FlowLayout.RIGHT);
+ 	 		b.setVisible(true);
+ 	 		b.addActionListener(new ActionListener() {
+ 	 			public void actionPerformed(ActionEvent ae) {
+ 	 				e=new JLabel("Thankyou!");
+ 	 				jp.add(e);
+ 	 				b1.setVisible(true);
+ 	 	 		b2.setVisible(true);
+ 	 	 		j1.setVisible(false);
+ 	 	 		j2.setVisible(false);
+ 	 	 		b.setVisible(false);
+ 	 	 		a.setVisible(false);
+ 	 	 		f1.setVisible(false);
+ 	 	 		f2.setVisible(false);
+ 	 			}
+ 	 		});
+ 	 		f1.setHorizontalAlignment(JTextField.LEFT);
+ 	 		jp.add(j1);
+ 	 		jp.add(f1);
+ 	 		f2.addItem("Cough 1");
+ 	 		f2.addItem("Cold 2");
+ 	 		f2.addItem("Fever 3");
+ 	 		f2.addItem("Headache 4");
+ 	 		f2.addItem("Vomit 5");
+ 	 		jp.add(j2);
+ 	 		jp.add(f2);
+ 	 		jp.setVisible(true);
+ 	 		f1.addActionListener(new ActionListener() {
+ 	 			public void actionPerformed(ActionEvent ae)
+ 	 		{
+ String text=(String)f1.getText();
+ writedetails(text+" ");
+ 		 }
+ 	 		});
+ 	 		f2.addActionListener(new ActionListener() {
+ 	 		public void actionPerformed(ActionEvent ae)
+ 	 		{
+ String s=(String)f2.getSelectedItem();
+ writedetails(s+" ");
+ 		 }
+ 	 });
+ }});
+ 	 b2.addActionListener(new ActionListener() {
+	 	public void actionPerformed(ActionEvent ae) {
+	 		jl2=new JLabel();
+	 		jl2.setText("Welcome Doctor XYZ");
+	 		jd.add(jl2);
+	 		c=new JTextArea(6,6);
+	 		
+	 		int count=0;
+	 		BufferedReader br = null;
+	 String strLine = "";
+	 String det="";
+	 try {
+	 br = new BufferedReader( new FileReader("file1.txt"));
+	 while( (strLine = br.readLine()) != null){
+	 	 det=det+strLine;
+	 	 count++;
+	 }
+	 } catch (FileNotFoundException e) {
+	 System.err.println("Unable to find the file: fileName");
+	 } catch (IOException e) {
+	 System.err.println("Unable to read the file: fileName");
+	 }
+	 System.out.println(count);
+	 StringTokenizer st=new StringTokenizer(det," ");
+	 int count2=0;
+	 String temp="";
+	 int arr[]=new int[50],i=0;
+	 String star[]=new String[50];
+	 try {
+	 while(st.hasMoreTokens())
+	 {
+	 	 temp=temp+" "+st.nextToken();
+	 	 System.out.println(temp);
+	 	 count2++;
+	 	 if(count2==2)
+	 	 {
+	 		 String k=st.nextToken();
+	 		 System.out.println(k);
+	 		 arr[i]=Integer.parseInt(k);
+	 		 star[i]=temp;
+	 		 System.out.println(star[i]);
+	 		 i++;
+	 		 count2=0;
+	 		 temp="";
+	 		 //break;
+	 	 }
+	 }
+	 }catch(Exception e) {
+	 	 System.out.println("e");
+	 }
+	 int j,d,t;
+	 String tem;
+	 for (j = 1 ; j <arr.length; j++) {
+	 	 d = j;
+	 	
+	 	 while ( d > 0 && arr[d-1] > arr[d]) {
+	 	 t = arr[d];
+	 	 tem=star[d];
+	 	 arr[d] = arr[d-1];
+	 	 star[d]=star[d-1];
+	 	 arr[d-1] = t;
+	 	 star[d-1]=tem;
+	 	
+2.
+	 	 d--;
+	 	 }
+	 	 }
+	 for(i = 0; i < star.length; i++)
+	 {
+	 c.append(star[i]);
+	 }
+	 		jd.add(c);
+	 		f.add(jd);
+	 		jd.setVisible(true);
+	 		b1.setVisible(false);
+	 		b2.setVisible(false);
+	 		
+	 	}
+	 });
+ 	 f.setSize(400,400);
+	 f.setVisible(true);
+	 }
+ void writedetails(String text)
+ {
+ 	 System.out.println("exec");
+ 	 try {
+ 		 String str;
+ File file = new File("file1.txt");
+ if(!file.exists())
+ {
+	 file.createNewFile();
+ }
+	 FileWriter fw = new FileWriter("file1.txt",true);
+	 BufferedWriter bw = new BufferedWriter(fw);
+	 bw.write(text); //step2: write it
+	 bw.close();
+	 }catch (IOException e) {
+	 e.printStackTrace();
+	 }
+ }
+ public static void main(String[] args) {
+	 new Doctors();
+	}
+}
